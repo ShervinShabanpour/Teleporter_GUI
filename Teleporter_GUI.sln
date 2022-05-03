@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32228.343
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teleporter_GUI", "Teleporter_GUI.csproj", "{C40F0381-7245-464E-9B34-34DD891A8228}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C40F0381-7245-464E-9B34-34DD891A8228}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C40F0381-7245-464E-9B34-34DD891A8228}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C40F0381-7245-464E-9B34-34DD891A8228}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C40F0381-7245-464E-9B34-34DD891A8228}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F9332555-FB98-4271-A7A1-88E653EB5D19}
+	EndGlobalSection
+EndGlobal
