@@ -19,25 +19,26 @@ namespace Teleporter_GUI
     public partial class Form1 : Form
     {
         System.Threading.Thread t;
-        private static bool MAXIMIZED = false;
+       // private static bool MAXIMIZED = false;
 
-        double temprature = 0;
+        double htemprature = 0;
         int stage = 0;
+        int pausing = 0;
         int SubstratePosition = 0;
         int steps = 0;
         int stageProgression;
         int psi = 0; // For the suction cup psi level
-
-        bool clamps; // The clamps on the progress
-        bool vaccum; // The cups in total
-        bool vac_sol; // The Solenoid for suction cup
+        string sendArduino;
         bool UpdateData = false;
+        bool recieved = false;
+        int posA;
+        int posB;
 
         string readArduino;
         string readVantage;
         string serialDataIn;
 
-        SerialPort arduino = new SerialPort("COM7", 115200);
+        SerialPort arduino = new SerialPort("COM5", 115200);
         SerialPort vantage = new SerialPort("COM4", 9600);
 
         public SerialPort myport;
@@ -62,9 +63,9 @@ namespace Teleporter_GUI
             InitializeComponent();
         }
 
-/// <summary>
-/// Function that initializes the timers within our application
-/// </summary>
+        /// <summary>
+        /// Function that initializes the timers within our application
+        /// </summary>
         private void InitializeTimer()
         {
             // Call this procedure when the application starts.  
@@ -84,22 +85,40 @@ namespace Teleporter_GUI
         {
             string dataIn = serialPort.ReadTo("\n");
             DataParsing(dataIn);
+            //arduino.DiscardOutBuffer();
             this.BeginInvoke(new EventHandler(Show_Data));
+            
         }
 
         public void Show_Data(object sender, EventArgs e)
         {
             if(UpdateData == true)
             {
-                currTmp_Heater_label.Text = string.Format("Temprature = {0} ºC", temprature.ToString());
-                tmp_chart.Series["Temperature"].Points.Add(temprature);
+                currTmp_Heater_label.Text = string.Format("Current Temprature of Heater = {0} ºC", htemprature.ToString());
+                tmp_chart.Series["Temperature"].Points.Add(htemprature);
 
-                if(vaccum == true)
+                if(posA == 1)
+                {
+                    pos1_btn.BackColor = Color.LimeGreen;
+                    pos2_btn.BackColor = Color.Red;
+                    pos1_checkBox.Checked = true;
+                    pos2_checkBox.Checked = false;
+                    richTextBox_leadScrew.Text = "The Fixture is at position 1.";
+                }
+
+                if(psi == 30)
                 {
                     Cups_btn.BackColor = Color.LimeGreen;
                     cups_psi_label.Text = "30 psi";
                     suctionCup_checkBox.Checked = true;
                     richTextBox_cupStatus.Text = "PSI at 30 and Suction Cups are active.";
+                }
+                else if(psi == 0)
+                {
+                    Cups_btn.BackColor = Color.Red;
+                    cups_psi_label.Text = "0 psi";
+                    suctionCup_checkBox.Checked = false;
+                    richTextBox_cupStatus.Text = "PSI at 0 and Suction Cups are not active.";
                 }
             }
         }
@@ -108,35 +127,51 @@ namespace Teleporter_GUI
         public void DataParsing(string data)
         {
             sbyte indexOf_startDataCharacter = (sbyte)data.IndexOf("@");
-            sbyte indexOfT = (sbyte)data.IndexOf("T");
+            sbyte indexOfStg = (sbyte)data.IndexOf("S");
+            sbyte indexOfPhot = (sbyte)data.IndexOf("P");
+            sbyte indexOfLclmp = (sbyte)data.IndexOf("L");
+            sbyte indexOfRclmp = (sbyte)data.IndexOf("R");
+            sbyte indexOfCC = (sbyte)data.IndexOf("C");
+            sbyte indexOfCheckSol = (sbyte)data.IndexOf("I");
+            sbyte indexOfPsi = (sbyte)data.IndexOf("#");
+            sbyte indexOfPosA = (sbyte)data.IndexOf("[");
+            sbyte indexOfPosB = (sbyte)data.IndexOf("]");
+            sbyte indexOfmidway = (sbyte)data.IndexOf("M");
+            sbyte indexOfTemp = (sbyte)data.IndexOf("T");
+            sbyte indexOfmaxTmp = (sbyte)data.IndexOf("X");
 
-            // sbyte indexOfSTG = (sbyte)data.IndexOf("STG");
-            sbyte indexOfVAC = (sbyte)data.IndexOf("VSL");
-            // sbyte indexOfVSL = (sbyte)data.IndexOf("VAC");
-            // sbyte indexOfPOS = (sbyte)data.IndexOf("POS");
-            // sbyte indexOfCLL = (sbyte)data.IndexOf("CLL");
-            // sbyte indexOfCLR = (sbyte)data.IndexOf("CLR");
 
             // If any of the strings above exists in the parsing package
-            if (/*indexOfCLL != -1 && indexOfCLR != -1 && indexOfPOS!= -1 && indexOfSTG != -1 
-                && indexOfVSL != -1 && */ indexOfVAC != -1 && indexOf_startDataCharacter != -1 && indexOfT != -1)
+            if (indexOf_startDataCharacter != -1 && indexOfStg != -1 && indexOfPhot != -1 && indexOfLclmp != -1 && indexOfRclmp != -1
+                && indexOfCC != -1 &&    indexOfCheckSol != -1 && indexOfPsi != -1 && indexOfPsi != -1 && indexOfPosA != -1 && 
+                indexOfPosB != -1 && indexOfmidway != -1 && indexOfTemp != -1 && indexOfmaxTmp != -1)
             {
                 try
                 {
-                    string str_temperature = data.Substring(indexOf_startDataCharacter + 1, (indexOfT - indexOf_startDataCharacter) - 1);
+                    string str_STG = data.Substring(indexOf_startDataCharacter + 1, (indexOfStg - indexOf_startDataCharacter) - 1);
+                    string str_PHOT = data.Substring(indexOf_startDataCharacter + 1, (indexOfPhot - indexOf_startDataCharacter) - 1);
+                    string str_LCLMP = data.Substring(indexOf_startDataCharacter + 1, (indexOfLclmp - indexOf_startDataCharacter) - 1);
+                    string str_RCLMP = data.Substring(indexOfLclmp + 1, (indexOfRclmp - indexOfLclmp) - 1);
+                    string str_CC = data.Substring(indexOf_startDataCharacter + 1, (indexOfCC - indexOf_startDataCharacter) - 1);
+                    string str_CHECKSOL = data.Substring(indexOf_startDataCharacter + 1, (indexOfCheckSol - indexOf_startDataCharacter) - 1);
+                    string str_PSI= data.Substring(indexOfCheckSol + 1, (indexOfPsi - indexOfCheckSol) - 1);
+                    string str_POSA = data.Substring(indexOf_startDataCharacter + 1, (indexOfPosA - indexOf_startDataCharacter) - 1);
+                    string str_POSB = data.Substring(indexOfPosA + 1, (indexOfPosB - indexOfPosA) - 1);
+                    string str_MIDWAY = data.Substring(indexOfPosB + 1, (indexOfmidway - indexOfPosB) - 1);
+                    string str_TEMP = data.Substring(indexOf_startDataCharacter + 1, (indexOfTemp - indexOf_startDataCharacter) - 1);
+                    string str_MaxTMP = data.Substring(indexOfTemp + 1, (indexOfmaxTmp - indexOfTemp) - 1);
 
-                   // string str_STG = data.Substring(indexOf_startDataCharacter + 1, (indexOfSTG - indexOf_startDataCharacter) - 1);
-                   string str_VAC = data.Substring(indexOf_startDataCharacter + 1, (indexOfVAC - indexOf_startDataCharacter) - 1);
-                   // string str_VSL = data.Substring(indexOf_startDataCharacter + 1, (indexOfVSL - indexOf_startDataCharacter) - 1);
-                   // string str_POS = data.Substring(indexOf_startDataCharacter + 1, (indexOfPOS - indexOf_startDataCharacter) - 1);
-                   // string str_CLL = data.Substring(indexOf_startDataCharacter + 1, (indexOfCLL - indexOf_startDataCharacter) - 1);
-                   // string str_CLR = data.Substring(indexOf_startDataCharacter + 1, (indexOfCLR - indexOf_startDataCharacter) - 1);
 
-                    temprature = Convert.ToDouble(str_temperature);
-                   // stage = Convert.ToInt32(str_STG);
-                   vaccum = Convert.ToBoolean(str_VAC);
+                    
+                    stage = Convert.ToInt32(str_STG);
+                    htemprature = Convert.ToDouble(str_TEMP);
+                    recieved = Convert.ToBoolean(str_PHOT);
+                    psi = Convert.ToInt32(str_PSI);
+                    posA = Convert.ToInt32(str_POSA);
+                    posB = Convert.ToInt32(str_POSB);
+                    
 
-                    UpdateData = true;
+                   UpdateData = true;
 
                 }
                 catch(Exception)
@@ -150,128 +185,6 @@ namespace Teleporter_GUI
                 UpdateData = false;
             }
 
-        }
-
-
-
-        public void checkParse(string data)
-        {
-            try
-            {
-                int val;
-                val = Int32.Parse(data);
-                Console.WriteLine("'{0}' parsed as {1}", data, val);
-            }
-
-            catch
-            {
-                Console.WriteLine("Can't Parsed '{0}'", data);
-            }
-
-            string protocol = data.Substring(0, 3);
-            string protocolVal = Regex.Match(data, @"\d+").Value;
-            int pval = Int32.Parse(protocolVal);
-            switch (data)
-            {
-                case "STG0":
-                    stage = 0;
-                    stageProgression = 0;
-                    break;
-                case "STG1":
-                    stage = 1;
-                    stageProgression = 20;
-                    break;
-                case "STG2":
-                    stage = 2;
-                    stageProgression = 40;
-                    break;
-                case "STG3":
-                    stage = 3;
-                    stageProgression = 60;
-                    break;
-                case "STG4":
-                    stage = 4;
-                    stageProgression = 80;
-                    break;
-                case "STG5":
-                    stage = 5;
-                    stageProgression = 100;
-                    break;
-            }
-
-            switch (protocol)
-            {
-                case "VAC":
-                    if (pval == 1)
-                    {
-                        Cups_btn.BackColor = Color.LimeGreen;
-                        cups_psi_label.Text = "30 psi";
-                        suctionCup_checkBox.Checked = true;
-                        richTextBox_cupStatus.Text = "PSI at 20 and Suction Cups are active.";
-                    }
-                    else if (pval == 0)
-                    {
-                        Cups_btn.BackColor = Color.Red;
-                        cups_psi_label.Text = "0 psi";
-                        suctionCup_checkBox.Checked = false;
-                        richTextBox_cupStatus.Text = "PSI at 0 and Suction Cups are not active.";
-                    }
-                    break;
-                case "VSL":
-                    if (pval == 1)
-                    {
-                        airCyl_status_btn.BackColor = Color.LimeGreen;
-                        richTextBox_cupSolStatus.Text = "The fixture has been elevated.";
-                    }
-                    else if (pval == 0)
-                    {
-                        airCyl_status_btn.BackColor = Color.Red;
-                        richTextBox_cupSolStatus.Text = "The fixture has been lowered.";
-                    }
-                    break;
-                case "CLR":
-                    if (pval == 1)
-                    {
-                        clmpR_btn.BackColor = Color.Red;
-                        richTextBox_clmp_status.Text = "The Left Clamp is not holding the Substrate";
-                    }
-                    else if (pval == 0)
-                    {
-                        clmpR_btn.BackColor = Color.LimeGreen;
-                        richTextBox_clmp_status.Text = "The Right Clamp is holding the Substrate";
-                    }
-                    break;
-                case "CLL":
-                    if (pval == 1)
-                    {
-                        clmpL_btn.BackColor = Color.Red;
-                        richTextBox_clmp_status.Text = "The Left Clamp is not holding the Substrate.";
-                    }
-                    if (pval == 0)
-                    {
-                        clmpR_btn.BackColor = Color.LimeGreen;
-                        richTextBox_clmp_status.Text = "The Left Clamp is holding the Substrate";
-                    }
-                    break;
-                case "POS":
-                    if (pval == 1)
-                    {
-                        pos1_btn.BackColor = Color.LimeGreen;
-                        pos2_btn.BackColor = Color.Red;
-                        pos1_checkBox.Checked = true;
-                        pos2_checkBox.Checked = false;
-                        richTextBox_leadScrew.Text = "The Fixture is at position 1.";
-                    }
-                    else if (pval == 2)
-                    {
-                        pos1_btn.BackColor = Color.Red;
-                        pos2_btn.BackColor = Color.LimeGreen;
-                        pos1_checkBox.Checked = false;
-                        pos2_checkBox.Checked = true;
-                        richTextBox_leadScrew.Text = "The Fixture is at position 2";
-                    }
-                    break;
-            }
         }
 
 
@@ -362,7 +275,7 @@ namespace Teleporter_GUI
             percentage_lable.Text = stageProgression.ToString() + "%";
             main_prog_progressBar.Increment(stageProgression);
             arduino.ReadTo(readArduino);
-            checkParse(readArduino);
+    //        checkParse(readArduino);
             switch (stage)
             {
                 case 0:
@@ -428,7 +341,7 @@ namespace Teleporter_GUI
 /// <param name="e"></param>
         private void Incr_btn_Click(object sender, EventArgs e)
         {
-            temprature += 1;
+            htemprature += 1;
         }
 
 /// <summary>
@@ -438,7 +351,7 @@ namespace Teleporter_GUI
 /// <param name="e"></param>
         private void Decr_btn_Click(object sender, EventArgs e)
         {
-            temprature -= 1;
+            htemprature -= 1;
         }
 
 /// <summary>
@@ -449,23 +362,20 @@ namespace Teleporter_GUI
         private void Timer_temp_Tick(object sender, EventArgs e)
         {
             // Set the caption to the current time.  
-            currTmp_Heater_label.Text = temprature.ToString() + "ºC";
+            currTmp_Heater_label.Text = htemprature.ToString() + "ºC";
         }
 
-        private void suctionCupStatus_Click(object sender, EventArgs e)
+        private void clmpDebug_btn_Click(object sender, EventArgs e)
         {
-            if(Cups_btn.BackColor == Color.Green)
-            {
-                
-            }
+            sendArduino = "3";
+            arduino.Write(sendArduino);
         }
 
-        private void tmp_chart_Click(object sender, EventArgs e)
+        private void rst_btn_Click(object sender, EventArgs e)
         {
-
+            sendArduino = "1";
+            arduino.Write(sendArduino);
         }
-
-
     }
 
 

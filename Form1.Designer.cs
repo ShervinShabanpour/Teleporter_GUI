@@ -30,12 +30,13 @@ namespace Teleporter_GUI
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.tab_ctrl = new System.Windows.Forms.TabControl();
             this.main_prog_tab = new System.Windows.Forms.TabPage();
+            this.rst_btn = new System.Windows.Forms.Button();
             this.main_prog_groupBox = new System.Windows.Forms.GroupBox();
             this.pos2_checkBox = new System.Windows.Forms.CheckBox();
             this.pos1_checkBox = new System.Windows.Forms.CheckBox();
@@ -67,6 +68,7 @@ namespace Teleporter_GUI
             this.Incr_btn = new System.Windows.Forms.Button();
             this.EnterTemp_textBox = new System.Windows.Forms.TextBox();
             this.substrate_tab = new System.Windows.Forms.TabPage();
+            this.label2 = new System.Windows.Forms.Label();
             this.leadScrew_pictureBox = new System.Windows.Forms.PictureBox();
             this.pause_leadScrew_btn = new System.Windows.Forms.Button();
             this.substrate_groupBox = new System.Windows.Forms.GroupBox();
@@ -84,16 +86,17 @@ namespace Teleporter_GUI
             this.richTextBox_cupStatus = new System.Windows.Forms.RichTextBox();
             this.cup_sol_err = new System.Windows.Forms.Label();
             this.cup_err = new System.Windows.Forms.Label();
-            this.cups_status_gif = new System.Windows.Forms.PictureBox();
             this.suctionCupStatus = new System.Windows.Forms.Button();
+            this.cups_status_gif = new System.Windows.Forms.PictureBox();
             this.clmp_tab = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.clmpDebug_btn = new System.Windows.Forms.Button();
             this.clmpL_btn = new System.Windows.Forms.Button();
             this.richTextBox_clmp_status = new System.Windows.Forms.RichTextBox();
             this.clmp_err = new System.Windows.Forms.Label();
             this.clmpR_btn = new System.Windows.Forms.Button();
-            this.clmps_status_gif = new System.Windows.Forms.PictureBox();
             this.clmp_status = new System.Windows.Forms.Button();
+            this.clmps_status_gif = new System.Windows.Forms.PictureBox();
             this.main_prog_imgList = new System.Windows.Forms.ImageList(this.components);
             this.serialPort = new System.IO.Ports.SerialPort(this.components);
             this.Timer_MainProg = new System.Windows.Forms.Timer(this.components);
@@ -134,6 +137,7 @@ namespace Teleporter_GUI
             // main_prog_tab
             // 
             this.main_prog_tab.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.main_prog_tab.Controls.Add(this.rst_btn);
             this.main_prog_tab.Controls.Add(this.main_prog_groupBox);
             this.main_prog_tab.Controls.Add(this.portInfo_groupBox);
             this.main_prog_tab.Controls.Add(this.main_prog_picBox);
@@ -147,6 +151,18 @@ namespace Teleporter_GUI
             this.main_prog_tab.Size = new System.Drawing.Size(1368, 649);
             this.main_prog_tab.TabIndex = 0;
             this.main_prog_tab.Text = "Main Progress";
+            // 
+            // rst_btn
+            // 
+            this.rst_btn.BackColor = System.Drawing.Color.Red;
+            this.rst_btn.Font = new System.Drawing.Font("Sitka Heading", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rst_btn.Location = new System.Drawing.Point(1074, 38);
+            this.rst_btn.Name = "rst_btn";
+            this.rst_btn.Size = new System.Drawing.Size(266, 93);
+            this.rst_btn.TabIndex = 10;
+            this.rst_btn.Text = "RESET";
+            this.rst_btn.UseVisualStyleBackColor = false;
+            this.rst_btn.Click += new System.EventHandler(this.rst_btn_Click);
             // 
             // main_prog_groupBox
             // 
@@ -206,6 +222,7 @@ namespace Teleporter_GUI
             // heater_checkBox
             // 
             this.heater_checkBox.AutoSize = true;
+            this.heater_checkBox.Enabled = false;
             this.heater_checkBox.Location = new System.Drawing.Point(6, 40);
             this.heater_checkBox.Name = "heater_checkBox";
             this.heater_checkBox.Size = new System.Drawing.Size(96, 33);
@@ -319,9 +336,11 @@ namespace Teleporter_GUI
             // 
             // main_prog_picBox
             // 
-            this.main_prog_picBox.Location = new System.Drawing.Point(495, 415);
+            this.main_prog_picBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.main_prog_picBox.InitialImage = global::Teleporter_GUI.Properties.Resources.Exploded_Gif;
+            this.main_prog_picBox.Location = new System.Drawing.Point(861, 200);
             this.main_prog_picBox.Name = "main_prog_picBox";
-            this.main_prog_picBox.Size = new System.Drawing.Size(379, 173);
+            this.main_prog_picBox.Size = new System.Drawing.Size(453, 268);
             this.main_prog_picBox.TabIndex = 5;
             this.main_prog_picBox.TabStop = false;
             // 
@@ -329,7 +348,7 @@ namespace Teleporter_GUI
             // 
             this.percentage_lable.AutoSize = true;
             this.percentage_lable.Font = new System.Drawing.Font("Sitka Heading", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.percentage_lable.Location = new System.Drawing.Point(651, 140);
+            this.percentage_lable.Location = new System.Drawing.Point(566, 140);
             this.percentage_lable.Name = "percentage_lable";
             this.percentage_lable.Size = new System.Drawing.Size(71, 48);
             this.percentage_lable.TabIndex = 4;
@@ -337,7 +356,7 @@ namespace Teleporter_GUI
             // 
             // mainProg_richTextBox
             // 
-            this.mainProg_richTextBox.Location = new System.Drawing.Point(495, 260);
+            this.mainProg_richTextBox.Location = new System.Drawing.Point(412, 254);
             this.mainProg_richTextBox.Name = "mainProg_richTextBox";
             this.mainProg_richTextBox.Size = new System.Drawing.Size(379, 124);
             this.mainProg_richTextBox.TabIndex = 2;
@@ -345,7 +364,7 @@ namespace Teleporter_GUI
             // 
             // main_prog_progressBar
             // 
-            this.main_prog_progressBar.Location = new System.Drawing.Point(548, 197);
+            this.main_prog_progressBar.Location = new System.Drawing.Point(465, 191);
             this.main_prog_progressBar.Name = "main_prog_progressBar";
             this.main_prog_progressBar.Size = new System.Drawing.Size(272, 38);
             this.main_prog_progressBar.TabIndex = 1;
@@ -354,7 +373,7 @@ namespace Teleporter_GUI
             // 
             this.stage_lable.AutoSize = true;
             this.stage_lable.Font = new System.Drawing.Font("Sitka Heading", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stage_lable.Location = new System.Drawing.Point(582, 78);
+            this.stage_lable.Location = new System.Drawing.Point(499, 80);
             this.stage_lable.Name = "stage_lable";
             this.stage_lable.Size = new System.Drawing.Size(204, 48);
             this.stage_lable.TabIndex = 0;
@@ -400,27 +419,26 @@ namespace Teleporter_GUI
             // tmp_chart
             // 
             this.tmp_chart.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            chartArea2.Name = "ChartArea1";
-            this.tmp_chart.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.tmp_chart.Legends.Add(legend2);
+            chartArea1.Name = "ChartArea1";
+            this.tmp_chart.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.tmp_chart.Legends.Add(legend1);
             this.tmp_chart.Location = new System.Drawing.Point(684, 20);
             this.tmp_chart.Name = "tmp_chart";
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series2.Font = new System.Drawing.Font("Sitka Heading", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            series2.Legend = "Legend1";
-            series2.Name = "Temprature";
-            series2.ShadowColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.tmp_chart.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Font = new System.Drawing.Font("Sitka Heading", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            series1.Legend = "Legend1";
+            series1.Name = "Temprature";
+            series1.ShadowColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.tmp_chart.Series.Add(series1);
             this.tmp_chart.Size = new System.Drawing.Size(616, 316);
             this.tmp_chart.TabIndex = 0;
             this.tmp_chart.Text = "Temprature Level";
-            title2.Font = new System.Drawing.Font("Sitka Heading", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            title2.Name = "Title1";
-            title2.Text = "Temprature and Time";
-            this.tmp_chart.Titles.Add(title2);
-            this.tmp_chart.Click += new System.EventHandler(this.tmp_chart_Click);
+            title1.Font = new System.Drawing.Font("Sitka Heading", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            title1.Name = "Title1";
+            title1.Text = "Temprature and Time";
+            this.tmp_chart.Titles.Add(title1);
             // 
             // enter_tmp_label
             // 
@@ -483,6 +501,7 @@ namespace Teleporter_GUI
             // substrate_tab
             // 
             this.substrate_tab.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.substrate_tab.Controls.Add(this.label2);
             this.substrate_tab.Controls.Add(this.leadScrew_pictureBox);
             this.substrate_tab.Controls.Add(this.pause_leadScrew_btn);
             this.substrate_tab.Controls.Add(this.substrate_groupBox);
@@ -495,8 +514,20 @@ namespace Teleporter_GUI
             this.substrate_tab.TabIndex = 2;
             this.substrate_tab.Text = "Substrate";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Sitka Heading", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(236, 40);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(339, 29);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "Current Temprature of Heater: ... ºC";
+            // 
             // leadScrew_pictureBox
             // 
+            this.leadScrew_pictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.leadScrew_pictureBox.InitialImage = global::Teleporter_GUI.Properties.Resources.Movement_Gif;
             this.leadScrew_pictureBox.Location = new System.Drawing.Point(691, 124);
             this.leadScrew_pictureBox.Name = "leadScrew_pictureBox";
             this.leadScrew_pictureBox.Size = new System.Drawing.Size(612, 343);
@@ -582,8 +613,8 @@ namespace Teleporter_GUI
             // 
             this.cup_tab.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.cup_tab.Controls.Add(this.vac_groupBox);
-            this.cup_tab.Controls.Add(this.cups_status_gif);
             this.cup_tab.Controls.Add(this.suctionCupStatus);
+            this.cup_tab.Controls.Add(this.cups_status_gif);
             this.cup_tab.Location = new System.Drawing.Point(4, 38);
             this.cup_tab.Name = "cup_tab";
             this.cup_tab.Padding = new System.Windows.Forms.Padding(3);
@@ -680,14 +711,6 @@ namespace Teleporter_GUI
             this.cup_err.TabIndex = 29;
             this.cup_err.Text = "Cup status Details";
             // 
-            // cups_status_gif
-            // 
-            this.cups_status_gif.Location = new System.Drawing.Point(637, 121);
-            this.cups_status_gif.Name = "cups_status_gif";
-            this.cups_status_gif.Size = new System.Drawing.Size(553, 260);
-            this.cups_status_gif.TabIndex = 33;
-            this.cups_status_gif.TabStop = false;
-            // 
             // suctionCupStatus
             // 
             this.suctionCupStatus.BackColor = System.Drawing.Color.Red;
@@ -700,14 +723,21 @@ namespace Teleporter_GUI
             this.suctionCupStatus.TabIndex = 27;
             this.suctionCupStatus.Text = "NOT ACTIVE";
             this.suctionCupStatus.UseVisualStyleBackColor = false;
-            this.suctionCupStatus.Click += new System.EventHandler(this.suctionCupStatus_Click);
+            // 
+            // cups_status_gif
+            // 
+            this.cups_status_gif.Location = new System.Drawing.Point(637, 121);
+            this.cups_status_gif.Name = "cups_status_gif";
+            this.cups_status_gif.Size = new System.Drawing.Size(601, 331);
+            this.cups_status_gif.TabIndex = 33;
+            this.cups_status_gif.TabStop = false;
             // 
             // clmp_tab
             // 
             this.clmp_tab.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.clmp_tab.Controls.Add(this.groupBox1);
-            this.clmp_tab.Controls.Add(this.clmps_status_gif);
             this.clmp_tab.Controls.Add(this.clmp_status);
+            this.clmp_tab.Controls.Add(this.clmps_status_gif);
             this.clmp_tab.Location = new System.Drawing.Point(4, 38);
             this.clmp_tab.Name = "clmp_tab";
             this.clmp_tab.Padding = new System.Windows.Forms.Padding(3);
@@ -717,6 +747,7 @@ namespace Teleporter_GUI
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.clmpDebug_btn);
             this.groupBox1.Controls.Add(this.clmpL_btn);
             this.groupBox1.Controls.Add(this.richTextBox_clmp_status);
             this.groupBox1.Controls.Add(this.clmp_err);
@@ -727,6 +758,16 @@ namespace Teleporter_GUI
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "groupBox1";
+            // 
+            // clmpDebug_btn
+            // 
+            this.clmpDebug_btn.Location = new System.Drawing.Point(225, 77);
+            this.clmpDebug_btn.Name = "clmpDebug_btn";
+            this.clmpDebug_btn.Size = new System.Drawing.Size(105, 59);
+            this.clmpDebug_btn.TabIndex = 13;
+            this.clmpDebug_btn.Text = "Debug";
+            this.clmpDebug_btn.UseVisualStyleBackColor = true;
+            this.clmpDebug_btn.Click += new System.EventHandler(this.clmpDebug_btn_Click);
             // 
             // clmpL_btn
             // 
@@ -770,14 +811,6 @@ namespace Teleporter_GUI
             this.clmpR_btn.Text = "Right Clamp";
             this.clmpR_btn.UseVisualStyleBackColor = false;
             // 
-            // clmps_status_gif
-            // 
-            this.clmps_status_gif.Location = new System.Drawing.Point(597, 93);
-            this.clmps_status_gif.Name = "clmps_status_gif";
-            this.clmps_status_gif.Size = new System.Drawing.Size(592, 249);
-            this.clmps_status_gif.TabIndex = 9;
-            this.clmps_status_gif.TabStop = false;
-            // 
             // clmp_status
             // 
             this.clmp_status.BackColor = System.Drawing.Color.Red;
@@ -789,6 +822,14 @@ namespace Teleporter_GUI
             this.clmp_status.Text = "NOT ACTIVE";
             this.clmp_status.UseVisualStyleBackColor = false;
             this.clmp_status.Click += new System.EventHandler(this.clmp_status_Click);
+            // 
+            // clmps_status_gif
+            // 
+            this.clmps_status_gif.Location = new System.Drawing.Point(597, 93);
+            this.clmps_status_gif.Name = "clmps_status_gif";
+            this.clmps_status_gif.Size = new System.Drawing.Size(592, 249);
+            this.clmps_status_gif.TabIndex = 9;
+            this.clmps_status_gif.TabStop = false;
             // 
             // main_prog_imgList
             // 
@@ -809,6 +850,7 @@ namespace Teleporter_GUI
             // Timer_temp
             // 
             this.Timer_temp.Enabled = true;
+            this.Timer_temp.Interval = 50;
             this.Timer_temp.Tick += new System.EventHandler(this.Timer_temp_Tick);
             // 
             // Form1
@@ -834,6 +876,7 @@ namespace Teleporter_GUI
             this.temprature_groupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tmp_chart)).EndInit();
             this.substrate_tab.ResumeLayout(false);
+            this.substrate_tab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.leadScrew_pictureBox)).EndInit();
             this.substrate_groupBox.ResumeLayout(false);
             this.cup_tab.ResumeLayout(false);
@@ -914,6 +957,9 @@ namespace Teleporter_GUI
         private System.Windows.Forms.GroupBox vac_groupBox;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.PictureBox leadScrew_pictureBox;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button clmpDebug_btn;
+        private System.Windows.Forms.Button rst_btn;
     }
 }
 
