@@ -34,6 +34,7 @@ namespace Teleporter_GUI
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tab_ctrl = new System.Windows.Forms.TabControl();
             this.main_prog_tab = new System.Windows.Forms.TabPage();
             this.rst_btn = new System.Windows.Forms.Button();
@@ -156,7 +157,7 @@ namespace Teleporter_GUI
             // 
             this.rst_btn.BackColor = System.Drawing.Color.Red;
             this.rst_btn.Font = new System.Drawing.Font("Sitka Heading", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rst_btn.Location = new System.Drawing.Point(1074, 38);
+            this.rst_btn.Location = new System.Drawing.Point(338, 13);
             this.rst_btn.Name = "rst_btn";
             this.rst_btn.Size = new System.Drawing.Size(266, 93);
             this.rst_btn.TabIndex = 10;
@@ -337,10 +338,11 @@ namespace Teleporter_GUI
             // main_prog_picBox
             // 
             this.main_prog_picBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.main_prog_picBox.Image = global::Teleporter_GUI.Properties.Resources.Exploded_Gif;
             this.main_prog_picBox.InitialImage = global::Teleporter_GUI.Properties.Resources.Exploded_Gif;
-            this.main_prog_picBox.Location = new System.Drawing.Point(861, 200);
+            this.main_prog_picBox.Location = new System.Drawing.Point(710, 122);
             this.main_prog_picBox.Name = "main_prog_picBox";
-            this.main_prog_picBox.Size = new System.Drawing.Size(453, 268);
+            this.main_prog_picBox.Size = new System.Drawing.Size(595, 346);
             this.main_prog_picBox.TabIndex = 5;
             this.main_prog_picBox.TabStop = false;
             // 
@@ -348,7 +350,7 @@ namespace Teleporter_GUI
             // 
             this.percentage_lable.AutoSize = true;
             this.percentage_lable.Font = new System.Drawing.Font("Sitka Heading", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.percentage_lable.Location = new System.Drawing.Point(566, 140);
+            this.percentage_lable.Location = new System.Drawing.Point(435, 273);
             this.percentage_lable.Name = "percentage_lable";
             this.percentage_lable.Size = new System.Drawing.Size(71, 48);
             this.percentage_lable.TabIndex = 4;
@@ -356,7 +358,7 @@ namespace Teleporter_GUI
             // 
             // mainProg_richTextBox
             // 
-            this.mainProg_richTextBox.Location = new System.Drawing.Point(412, 254);
+            this.mainProg_richTextBox.Location = new System.Drawing.Point(283, 422);
             this.mainProg_richTextBox.Name = "mainProg_richTextBox";
             this.mainProg_richTextBox.Size = new System.Drawing.Size(379, 124);
             this.mainProg_richTextBox.TabIndex = 2;
@@ -364,7 +366,7 @@ namespace Teleporter_GUI
             // 
             // main_prog_progressBar
             // 
-            this.main_prog_progressBar.Location = new System.Drawing.Point(465, 191);
+            this.main_prog_progressBar.Location = new System.Drawing.Point(338, 345);
             this.main_prog_progressBar.Name = "main_prog_progressBar";
             this.main_prog_progressBar.Size = new System.Drawing.Size(272, 38);
             this.main_prog_progressBar.TabIndex = 1;
@@ -373,7 +375,7 @@ namespace Teleporter_GUI
             // 
             this.stage_lable.AutoSize = true;
             this.stage_lable.Font = new System.Drawing.Font("Sitka Heading", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stage_lable.Location = new System.Drawing.Point(499, 80);
+            this.stage_lable.Location = new System.Drawing.Point(373, 216);
             this.stage_lable.Name = "stage_lable";
             this.stage_lable.Size = new System.Drawing.Size(204, 48);
             this.stage_lable.TabIndex = 0;
@@ -527,6 +529,7 @@ namespace Teleporter_GUI
             // leadScrew_pictureBox
             // 
             this.leadScrew_pictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.leadScrew_pictureBox.Image = global::Teleporter_GUI.Properties.Resources.Movement_Gif;
             this.leadScrew_pictureBox.InitialImage = global::Teleporter_GUI.Properties.Resources.Movement_Gif;
             this.leadScrew_pictureBox.Location = new System.Drawing.Point(691, 124);
             this.leadScrew_pictureBox.Name = "leadScrew_pictureBox";
@@ -726,9 +729,10 @@ namespace Teleporter_GUI
             // 
             // cups_status_gif
             // 
-            this.cups_status_gif.Location = new System.Drawing.Point(637, 121);
+            this.cups_status_gif.Image = ((System.Drawing.Image)(resources.GetObject("cups_status_gif.Image")));
+            this.cups_status_gif.Location = new System.Drawing.Point(604, 121);
             this.cups_status_gif.Name = "cups_status_gif";
-            this.cups_status_gif.Size = new System.Drawing.Size(601, 331);
+            this.cups_status_gif.Size = new System.Drawing.Size(725, 452);
             this.cups_status_gif.TabIndex = 33;
             this.cups_status_gif.TabStop = false;
             // 
@@ -825,9 +829,10 @@ namespace Teleporter_GUI
             // 
             // clmps_status_gif
             // 
-            this.clmps_status_gif.Location = new System.Drawing.Point(597, 93);
+            this.clmps_status_gif.Image = ((System.Drawing.Image)(resources.GetObject("clmps_status_gif.Image")));
+            this.clmps_status_gif.Location = new System.Drawing.Point(539, 218);
             this.clmps_status_gif.Name = "clmps_status_gif";
-            this.clmps_status_gif.Size = new System.Drawing.Size(592, 249);
+            this.clmps_status_gif.Size = new System.Drawing.Size(765, 270);
             this.clmps_status_gif.TabIndex = 9;
             this.clmps_status_gif.TabStop = false;
             // 
